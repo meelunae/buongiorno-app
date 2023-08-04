@@ -5,17 +5,12 @@
 //  Created by Meelunae on 01/08/23.
 //
 
+import PhotosUI
 import SwiftUI
 
 
 struct ProfilePageView: View {
-    @AppStorage("isLoggedIn") var isLoggedIn: Bool = true
-    @AppStorage("displayName") var authedDisplayName: String = "undefined"
-    @AppStorage("username") var authedUsername: String = "undefined"
-    @AppStorage("bio") var authedBio: String = "undefined"
-    @AppStorage("profilePicture") var authedProfilePicture: String = ""
-    @AppStorage("friends") var authedFriends: Int = 0
-    @AppStorage("score") var authedScore: Int = 0
+    @StateObject var viewModel = ProfileViewModel()
     @State private var isPresentingConfirm: Bool = false
     @State private var isPresentingEditSheet: Bool = false
     
@@ -40,37 +35,28 @@ struct ProfilePageView: View {
                                         .frame(maxWidth: 35)
 
                                 })
+                                .fontWeight(.bold)
                                 .padding(.top)
                             }
                             Spacer()
-                            
-                            AsyncImage(url: URL(string: authedProfilePicture), content: {
-                                image in
-                                image.resizable()
-                                    .scaledToFill()
-                            }, placeholder: {
-                                Color.gray
-                            })
-                            .frame(width:100, height: 100, alignment: .center)
-                            .clipShape(Circle())
-                            
-                            Text(authedDisplayName)
+                            CircularProfilePicture(profilePictureUri: $viewModel.profilePictureURL)
+                            Text(viewModel.displayName)
                                 .font(.title)
                                 .fontWeight(.semibold)
-                            Text("@\(authedUsername) • they/them")
+                            Text("@\(viewModel.username) • they/them")
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                             Spacer()
-                            Text(authedBio)
+                            Text(viewModel.bio)
                             HStack {
                                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                                    Label("\(authedFriends) Friends", systemImage: "person.2.fill")
+                                    Label("\(viewModel.friendsCount) Friends", systemImage: "person.2.fill")
                                         .labelStyle(CustomLabel(spacing: 5))
                                 })
                                 .foregroundColor(.orange)
                                 .padding()
                                 Button(action: {}, label: {
-                                    Label("\(authedScore) Points", systemImage: "sparkles")
+                                    Label("\(viewModel.scoreCount) Points", systemImage: "sparkles")
                                         .labelStyle(CustomLabel(spacing: 5))
                                 })
                                 .foregroundColor(.orange)
@@ -127,7 +113,7 @@ struct ProfilePageView: View {
                     .confirmationDialog("Are you sure you want to log out?",
                                         isPresented: $isPresentingConfirm) {
                         Button("Log out", role: .destructive) {
-                            self.isLoggedIn = false
+                            viewModel.isLoggedIn = false
                             KeychainWrapper.standard.removeObject(forKey: "GdayAuthToken")
                         }
                     } message: {
@@ -140,7 +126,7 @@ struct ProfilePageView: View {
         }
         .sheet(isPresented: $isPresentingEditSheet) {
             NavigationView {
-                EditProfileSheetView(isShowingSheet: $isPresentingEditSheet)
+                EditProfileSheetView(viewModel: viewModel, isShowingSheet: $isPresentingEditSheet)
             }
             .presentationDetents([.medium])
             .presentationDragIndicator(.hidden)
@@ -155,13 +141,27 @@ struct ProfilePageView: View {
 }
 
 struct EditProfileSheetView: View {
+    @ObservedObject var viewModel: ProfileViewModel
+    @Binding var isShowingSheet: Bool
     @State var displayName: String = ""
     @State var username: String = ""
     @State var bio: String = ""
-    @Binding var isShowingSheet: Bool
 
     var body: some View {
         VStack {
+            Spacer()
+            CircularProfilePicture(profilePictureUri: $viewModel.profilePictureURL)
+            .overlay(alignment: .bottomTrailing) {
+                PhotosPicker(selection: $viewModel.imageSelection,
+                             matching: .images,
+                             photoLibrary: .shared()) {
+                    Image(systemName: "pencil.circle.fill")
+                        .symbolRenderingMode(.multicolor)
+                        .font(.system(size: 30))
+                        .foregroundColor(.accentColor)
+                }
+                .buttonStyle(.borderless)
+            }
             Spacer()
             HStack {
                 Text("Display name")
@@ -171,13 +171,13 @@ struct EditProfileSheetView: View {
             
             HStack {
                 Text("Username")
-                TextField("Display name", text: $username)
+                TextField("Username", text: $username)
             }
             .padding()
 
             HStack {
                 Text("Bio")
-                TextField("Display name", text: $bio)
+                TextField("Bio", text: $bio)
             }
             .padding()
 
@@ -199,6 +199,22 @@ struct EditProfileSheetView: View {
                 })
             })
         }
+    }
+}
+
+struct CircularProfilePicture: View {
+    @Binding var profilePictureUri: String
+    var body: some View {
+        AsyncImage(url: URL(string: profilePictureUri), content: {
+            image in
+            image.resizable()
+                .scaledToFill()
+        }, placeholder: {
+            ProgressView()
+        })
+        .frame(width:100, height: 100, alignment: .center)
+        .clipShape(Circle())
+
     }
 }
 

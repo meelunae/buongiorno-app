@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6231581D2A796D4600EF2AE0 /* ProfilePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6231581C2A796D4600EF2AE0 /* ProfilePageView.swift */; };
 		623FEB9F2A78364400AA00CF /* LeaderboardPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623FEB9E2A78364400AA00CF /* LeaderboardPageView.swift */; };
+		627F813E2A7D6893005D8E82 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627F813D2A7D6893005D8E82 /* ProfileViewModel.swift */; };
 		62D0D1C22A6F0809007A53EE /* APIResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D0D1C12A6F0809007A53EE /* APIResponses.swift */; };
 		62D0D1C42A6F0820007A53EE /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D0D1C32A6F0820007A53EE /* KeychainWrapper.swift */; };
 		62D0D1C62A6F0835007A53EE /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D0D1C52A6F0835007A53EE /* KeychainItemAccessibility.swift */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		6231581C2A796D4600EF2AE0 /* ProfilePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageView.swift; sourceTree = "<group>"; };
 		623FEB9E2A78364400AA00CF /* LeaderboardPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardPageView.swift; sourceTree = "<group>"; };
+		627F813D2A7D6893005D8E82 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		62D0D1BF2A6EB788007A53EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		62D0D1C12A6F0809007A53EE /* APIResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponses.swift; sourceTree = "<group>"; };
 		62D0D1C32A6F0820007A53EE /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
@@ -102,6 +104,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		627F813C2A7D6886005D8E82 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				627F813D2A7D6893005D8E82 /* ProfileViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		62D0D1C02A6F07D9007A53EE /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +165,7 @@
 		62EB5C932A6EAB7800FD7A38 /* Buongiorno */ = {
 			isa = PBXGroup;
 			children = (
+				627F813C2A7D6886005D8E82 /* ViewModels */,
 				62D0D1C72A6F085F007A53EE /* Views */,
 				62D0D1C02A6F07D9007A53EE /* Models */,
 				62D0D1BF2A6EB788007A53EE /* Info.plist */,
@@ -341,6 +352,7 @@
 				6231581D2A796D4600EF2AE0 /* ProfilePageView.swift in Sources */,
 				62D0D1C42A6F0820007A53EE /* KeychainWrapper.swift in Sources */,
 				62EB5C952A6EAB7800FD7A38 /* BuongiornoApp.swift in Sources */,
+				627F813E2A7D6893005D8E82 /* ProfileViewModel.swift in Sources */,
 				62D0D1C62A6F0835007A53EE /* KeychainItemAccessibility.swift in Sources */,
 				62D0D1C22A6F0809007A53EE /* APIResponses.swift in Sources */,
 				62EA98BA2A79CD0900F72DD5 /* AppearanceSettingsView.swift in Sources */,
