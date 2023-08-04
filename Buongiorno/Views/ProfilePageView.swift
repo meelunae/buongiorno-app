@@ -47,7 +47,9 @@ struct ProfilePageView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                             Spacer()
-                            Text(viewModel.bio)
+                            if (viewModel.bio != "") {
+                                Text(viewModel.bio)
+                            }
                             HStack {
                                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                                     Label("\(viewModel.friendsCount) Friends", systemImage: "person.2.fill")
@@ -163,23 +165,44 @@ struct EditProfileSheetView: View {
                 .buttonStyle(.borderless)
             }
             Spacer()
-            HStack {
-                Text("Display name")
-                TextField("Display name", text: $displayName)
-            }
-            .padding()
-            
-            HStack {
-                Text("Username")
-                TextField("Username", text: $username)
-            }
-            .padding()
+            Form {
+                LabeledContent {
+                    TextField("Display name", text: $displayName)
+                } label: {
+                 Text("Name")
+                        .fontWeight(.semibold)
+                        .frame(width: 100)
+                        .multilineTextAlignment(.trailing)
+                }
+                .listRowInsets(EdgeInsets()) // Remove padding for the form row
 
-            HStack {
-                Text("Bio")
-                TextField("Bio", text: $bio)
+                
+                LabeledContent {
+                    TextField("Pronouns", text: $username)
+                } label: {
+                 Text("Pronouns")
+                        .fontWeight(.semibold)
+                        .frame(width: 100)
+                        .multilineTextAlignment(.trailing)
+                }
+                .listRowInsets(EdgeInsets()) // Remove padding for the form row
+
+            
+                LabeledContent {
+                    TextField("Bio", text: $bio)
+                        .foregroundStyle(.primary)
+                } label: {
+                 Text("Bio")
+                        .fontWeight(.semibold)
+                        .frame(width: 100)
+                        .multilineTextAlignment(.trailing)
+                }
+                .listRowInsets(EdgeInsets()) // Remove padding for the form row
+
             }
-            .padding()
+            .tint(.orange)
+            .foregroundColor(.orange)
+            .scrollContentBackground(.hidden)
 
         }
         .navigationBarTitle("Edit profile", displayMode: .inline)

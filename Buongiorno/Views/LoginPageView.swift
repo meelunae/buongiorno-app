@@ -19,42 +19,86 @@ struct LoginPageView: View {
     var body: some View {
         ZStack {
             Color("Background").ignoresSafeArea()
+            Spacer()
             VStack {
-                Text("Login")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding()
+                VStack {
+                    Image(systemName: "sun.and.horizon.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width:150, height:150)
+                        .foregroundStyle(Color.orange)
+                    Text("Buongiorno")
+                        .font(.largeTitle)
+                        .bold()
+                        .padding(.bottom)
+
+                    Form {
+                        Section(content: {
+                            LabeledContent {
+                                TextField("Username", text: $username)
+                                    .autocorrectionDisabled(true)
+                                    .textInputAutocapitalization(.never)
+                                    .textContentType(.username)
+                            } label: {
+                                Text("Username")
+                                    .fontWeight(.semibold)
+                                    .frame(width: 100)
+                                    .multilineTextAlignment(.trailing)
+                            }
+                            
+                            LabeledContent {
+                                SecureField("Password", text: $password)
+                            } label: {
+                                Text("Password")
+                                    .fontWeight(.semibold)
+                                    .frame(width: 100)
+                                    .multilineTextAlignment(.trailing)
+                            }
+                        }, footer: {
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    loginAPICall(username: username, password: password)
+                                }, label: {
+                                    Label("Login", systemImage: "arrow.right.to.line")
+                                })
+                                .padding()
+                                .disabled(username.count < 3 && password.count < 8)
+                                .opacity(username.count < 3 ? 0.5 : 1.0)
+                                .foregroundColor(.white)
+                                .frame(width: 120, height: 40)
+                                .background(Color.orange.opacity(0.8))
+                                .cornerRadius(10)
+                                Spacer()
+                            }
+                            .padding()
+                        })
+                        
+                    }
+                    .scrollContentBackground(.hidden)
+
+                }
                 
-                LoginTextField(text: $username, placeholder: "Username")
-                SecureLoginTextField(text: $password, placeholder: "Password")
-                
+                                
                 if showError {
                     Text(errorMessage)
                         .foregroundColor(.red) // Set text color to red
                         .padding()
                 }
                 
-                Button("Login") {
-                    loginAPICall(username: username, password: password)
-                }
-                .padding()
-                .disabled(username.count < 3 && password.count < 8)
-                .opacity(username.count < 3 ? 0.5 : 1.0)
-                .foregroundColor(.white)
-                .frame(width: 300, height: 50)
-                .background(Color.orange.opacity(0.8))
-                .cornerRadius(10)
                 
-                Button("Authenticate with Face ID") {
-                    authenticate()
-                }
-                .padding()
-                .foregroundColor(.white)
-                .frame(width: 300, height: 50)
-                .background(Color.orange.opacity(0.8))
-                .cornerRadius(10)
-                
-                NavigationLink("Don't have an account yet?", destination: SignupPageView())
+                /* Button("Authenticate with Face ID") {
+                 authenticate()
+                 }
+                 .padding()
+                 .foregroundColor(.white)
+                 .frame(width: 300, height: 50)
+                 .background(Color.orange.opacity(0.8))
+                 .cornerRadius(10)
+                 */
+                Text("Don't have an account yet?")
+                NavigationLink("Sign up", destination: SignupPageView())
+                    .foregroundStyle(.orange)
             }
         }
     }
@@ -136,4 +180,8 @@ struct LoginPageView: View {
             }
         }
     }
+}
+
+#Preview {
+    LoginPageView()
 }
