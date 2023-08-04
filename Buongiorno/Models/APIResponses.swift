@@ -7,6 +7,18 @@
 
 import Foundation
 
+struct APIError: Codable {
+    let code: Int
+    let message: String
+}
+
+struct APIResponse<T: Codable>: Codable {
+    let success: Bool
+    let error : APIError?
+    let data: T?
+    let message: String?
+}
+
 struct AuthTokenResponse: Codable {
     let token: String
 }
@@ -14,4 +26,22 @@ struct AuthTokenResponse: Codable {
 struct ErrorResponse: Codable {
     let error: Bool
     let reason: String
+}
+
+struct UserDetailsDTO: Codable {
+    let id : UUID
+    let profilePicture: String
+    let username: String
+    let displayName: String
+    let bio: String
+    let score: Int
+    let friends: Int
+}
+
+struct LeaderboardUserDTO: Codable, Identifiable {
+    let id: UUID
+    let profilePicture: String
+    let username: String
+    let score: Int
+    let placement: Int
 }

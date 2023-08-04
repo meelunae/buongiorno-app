@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct BuongiornoApp: App {
+    @AppStorage("selectedTheme") var selectedTheme = "Automatic"
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if selectedTheme == "Automatic" {
+                ContentView()
+            } else {
+                ContentView()
+                    .preferredColorScheme(selectedTheme == "Dark" ? .dark : .light)
+            }
         }
     }
 }

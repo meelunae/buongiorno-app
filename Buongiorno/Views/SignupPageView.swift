@@ -14,32 +14,38 @@ struct SignupPageView: View {
     @State private var password = ""
     @State private var confirmPassword = ""
     var body: some View {
-
-        LoginTextField(text: $displayName, placeholder: "Display name")
-        LoginTextField(text: $username, placeholder: "Username")
-        LoginTextField(text: $email, placeholder: "Email")
         
-        SecureLoginTextField(text: $password, placeholder: "Password")
-        SecureLoginTextField(text: $confirmPassword, placeholder: "Confirm Password")
+        ZStack {
+            Color("Background").ignoresSafeArea()
+            VStack {
+                LoginTextField(text: $displayName, placeholder: "Display name")
+                LoginTextField(text: $username, placeholder: "Username")
+                LoginTextField(text: $email, placeholder: "Email")
+                
+                SecureLoginTextField(text: $password, placeholder: "Password")
+                SecureLoginTextField(text: $confirmPassword, placeholder: "Confirm Password")
 
+                Button("Signup") {
+                    print(confirmPassword)
+                    signupAPICall(displayName: displayName, username: username, email: email, password: password, confirmPassword: confirmPassword)
+                }
+                .disabled(displayName.count < 3 && username.count < 3 && password.count < 8 && confirmPassword.count < 8 && email.count < 1)
+                .opacity(username.count < 3 ? 0.5 : 1.0)
+                .foregroundColor(.white)
+                .frame(width: 300, height: 50)
+                .background(Color.black.opacity(0.8))
+                .cornerRadius(10)
 
-        Button("Signup") {
-            print(confirmPassword)
-            signupAPICall(displayName: displayName, username: username, email: email, password: password, confirmPassword: confirmPassword)
+            }
         }
-        .disabled(displayName.count < 3 && username.count < 3 && password.count < 8 && confirmPassword.count < 8 && email.count < 1)
-        .opacity(username.count < 3 ? 0.5 : 1.0)
-        .foregroundColor(.white)
-        .frame(width: 300, height: 50)
-        .background(Color.black.opacity(0.8))
-        .cornerRadius(10)
+
     }
 }
 
 
 
 func signupAPICall(displayName: String, username: String, email: String, password: String, confirmPassword: String ) {
-    guard let url = URL(string: "http://127.0.0.1:8080/user") else {
+    guard let url = URL(string: "http://127.0.0.1:8080/users") else {
         return
     }
     var request = URLRequest(url: url)
