@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("showUserOnboarding") var showOnboarding: Bool = true
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     var body: some View {
         /*NavigationView {
@@ -16,23 +17,28 @@ struct ContentView: View {
          }
          .padding()
          */
-        if isLoggedIn {
-            TabView {
-                LeaderboardPageView()
-                    .tabItem {
-                        Label("Leaderboard", systemImage: "trophy")
-                    }
-                ProfilePageView()
-                    .tabItem {
-                        Label("Profile", systemImage: "person.circle.fill")
-                    }
-            }
+        
+        if showOnboarding {
+            OnboardingView()
         } else {
-            NavigationView {
-                LoginPageView()
+            if isLoggedIn {
+                TabView {
+                    LeaderboardPageView()
+                        .tabItem {
+                            Label("Leaderboard", systemImage: "trophy")
+                        }
+                    ProfilePageView()
+                        .tabItem {
+                            Label("Profile", systemImage: "person.circle.fill")
+                        }
+                }
+            } else {
+                NavigationView {
+                    LoginPageView()
+                }
             }
         }
-
+  
     }
 }
 
