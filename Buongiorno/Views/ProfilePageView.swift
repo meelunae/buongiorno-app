@@ -171,7 +171,7 @@ struct EditProfileSheetView: View {
     @ObservedObject var viewModel: ProfileViewModel
     @Binding var isShowingSheet: Bool
     @State var displayName: String = ""
-    @State var username: String = ""
+    @State var pronouns: String = ""
     @State var bio: String = ""
 
     var body: some View {
@@ -192,7 +192,7 @@ struct EditProfileSheetView: View {
             Spacer()
             Form {
                 LabeledContent {
-                    TextField("Display name", text: $displayName)
+                    TextField("Your display name", text: $displayName)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .foregroundStyle(.foregroundText)
@@ -206,7 +206,7 @@ struct EditProfileSheetView: View {
 
                 
                 LabeledContent {
-                    TextField("Pronouns", text: $username)
+                    TextField("he/him, she/her, they/them", text: $pronouns)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                     .foregroundStyle(.foregroundText)
@@ -220,7 +220,7 @@ struct EditProfileSheetView: View {
 
             
                 LabeledContent {
-                    TextField("Bio", text: $bio)
+                    TextField("Hello! I am a 24 years old student from Italy.", text: $bio)
                         .autocapitalization(.none)
                         .foregroundStyle(.foregroundText)
                 } label: {
@@ -229,8 +229,7 @@ struct EditProfileSheetView: View {
                         .frame(width: 100)
                         .multilineTextAlignment(.trailing)
                 }
-                .listRowInsets(EdgeInsets()) // Remove padding for the form row
-
+                .listRowInsets(EdgeInsets())
             }
             .tint(.orange)
             .foregroundColor(.orange)
@@ -239,7 +238,7 @@ struct EditProfileSheetView: View {
         }
         .onAppear {
             displayName = viewModel.displayName
-            username = viewModel.username
+            pronouns = viewModel.pronouns
             bio = viewModel.bio
         }
         .navigationBarTitle("Edit profile", displayMode: .inline)
@@ -253,7 +252,11 @@ struct EditProfileSheetView: View {
             })
             ToolbarItem(placement: .topBarTrailing, content: {
                 Button(action: {
-                    
+                    viewModel.patchProfileData(displayName: displayName, pronouns: pronouns, bio: bio) { success in
+                        if success {
+                            self.isShowingSheet = false
+                        }
+                    }
                 }, label: {
                     Text("Save")
                 })

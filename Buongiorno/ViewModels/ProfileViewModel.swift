@@ -73,6 +73,79 @@ class ProfileViewModel: ObservableObject {
     
     // MARK: - Private Methods
     
+     func patchProfileData(displayName: String, pronouns: String, bio: String, completion: @escaping (Bool) -> Void) {
+         guard let url = URL(string: "http://127.0.0.1:1337/api/user/") else {
+            completion(false)
+            return
+        }
+        guard let authToken = KeychainWrapper.standard.string(forKey: "GdayAuthToken") else {
+            completion(false)
+            return
+        }
+        
+        let updateData: [String: Any] = [
+            "displayName": displayName,
+            "pronouns": pronouns,
+            "bio": bio
+        ]
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: updateData)
+            var request = URLRequest(url: url)
+            request.httpMethod = "PATCH"
+            request.httpBody = jsonData
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    completion(false)
+                    print("Error: \(error.localizedDescription)")
+                    return
+                }
+                if let data = data {
+                    do {
+                        let decoder = JSONDecoder()
+                        print(String(data: data, encoding: .utf8))
+                        do {
+                            let decoder = JSONDecoder()
+                            let decodedObject = try decoder.decode(APIResponse<UserDetailsDTO>.self, from: data)
+                            print(decodedObject)
+                        }  catch let error {
+                            print("Error decoding JSON: \(error)")
+                        }
+                        if let successResponse = try? decoder.decode(APIResponse<UserDetailsDTO>.self, from: data) {
+                            print(successResponse)
+                            guard let user = successResponse.data else {
+                                completion(false)
+                                return
+                            }
+                            print(user)
+                            DispatchQueue.main.async {
+                                self.displayName = user.displayName
+                                self.bio = user.bio
+                                self.pronouns = user.pronouns
+                                completion(true)
+                            }
+                        } else if let errorResponse = try? decoder.decode(ErrorResponse.self, from: data) {
+                            print("Error: \(errorResponse)")
+                            completion(false)
+                            return
+                        } else {
+                            completion(false)
+                            return
+                        }
+                    }
+                }
+            }
+            task.resume()
+        }
+        catch {
+            completion(false)
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
     private func fetchProfileData() {
         guard let url = URL(string: "http://127.0.0.1:1337/api/user/emanuele") else {
             return
@@ -102,7 +175,7 @@ class ProfileViewModel: ObservableObject {
                             self.profilePictureURL = user.profilePicture
                             self.bio = user.bio
                             self.scoreCount = user.score
-                            self.friendsCount = user.friends
+                            self.friendsCount = 0
                             self.pronouns = user.pronouns
                             self.displayName = user.displayName
                         }

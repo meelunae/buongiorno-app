@@ -20,14 +20,13 @@ struct APIResponse<T: Codable>: Codable {
 }
 
 struct UserDetailsDTO: Codable {
-    let id : String
+    let _id : String
     let profilePicture: String
     let username: String
     let displayName: String
     let bio: String
     let pronouns: String
     let score: Int
-    let friends: Int
 }
 
 struct AuthTokenResponse: Codable {
@@ -42,9 +41,12 @@ struct ErrorResponse: Codable {
 
 
 struct LeaderboardUserDTO: Codable, Identifiable {
-    let id: UUID
+    let _id: String
     let profilePicture: String
     let username: String
     let score: Int
     let placement: Int
+    var id: String {
+        _id
+    }
 }
