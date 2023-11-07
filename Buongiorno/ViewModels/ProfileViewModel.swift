@@ -19,6 +19,7 @@ class ProfileViewModel: ObservableObject {
     @Published var username: String = "undefined"
     @Published var bio: String = "undefined"
     @Published var profilePictureURL: String = "undefined"
+    @Published var pronouns: String = "undefined"
     @Published var friendsCount: Int = 0
     @Published var scoreCount: Int = 0
     
@@ -73,7 +74,7 @@ class ProfileViewModel: ObservableObject {
     // MARK: - Private Methods
     
     private func fetchProfileData() {
-        guard let url = URL(string: "http://127.0.0.1:8080/me") else {
+        guard let url = URL(string: "http://127.0.0.1:1337/api/user/emanuele") else {
             return
         }
         guard let authToken = KeychainWrapper.standard.string(forKey: "GdayAuthToken") else {
@@ -86,14 +87,13 @@ class ProfileViewModel: ObservableObject {
         
         let task = URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
-                print(error)
+                print("Error: \(error.localizedDescription)")
                 return
             }
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
                     if let successResponse = try? decoder.decode(APIResponse<UserDetailsDTO>.self, from: data) {
-                        print(successResponse)
                         guard let user = successResponse.data else {
                             return
                         }
@@ -103,9 +103,11 @@ class ProfileViewModel: ObservableObject {
                             self.bio = user.bio
                             self.scoreCount = user.score
                             self.friendsCount = user.friends
+                            self.pronouns = user.pronouns
                             self.displayName = user.displayName
                         }
                     } else if let errorResponse = try? decoder.decode(ErrorResponse.self, from: data) {
+                        print("Error: \(errorResponse)")
                         return
                     } else {
                         return

@@ -58,8 +58,33 @@ struct LeaderboardPageView: View {
                         .padding(.vertical, 10)
                     }
                 }
-                .navigationTitle("Leaderboard")
-                .background(Color(uiColor: .systemGroupedBackground))
+                .toolbar(content: {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        HStack {
+                            Button(action: {
+                                
+                            }, label: {
+                                Text(Image(systemName: "heart"))
+                            })
+                            .padding()
+                            .frame(maxWidth: 30)
+                            Button(action: {
+                                
+                            }, label: {
+                                Text(Image(systemName: "person.crop.circle.fill"))
+                            })
+                            .frame(maxWidth: 30)
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text("Leaderboard")
+                            .fontWeight(.bold)
+                            .font(.title)
+                        .padding()
+                    }
+                })
+            .background(Color(uiColor: .systemGroupedBackground))
             }
         }
         .introspect(.navigationView(style: .stack), on: .iOS(.v16, .v17)) { controller in
@@ -170,7 +195,7 @@ class Leaderboard: ObservableObject {
     }
     
     func fetchLeaderboard() {
-        guard let url = URL(string: "http://127.0.0.1:8080/buongiorno/leaderboard") else {
+        guard let url = URL(string: "http://127.0.0.1:1337/buongiorno/leaderboard") else {
             return
         }
         

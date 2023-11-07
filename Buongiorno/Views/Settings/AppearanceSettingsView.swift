@@ -12,7 +12,7 @@ struct AppearanceSettingsView: View {
     let themes = ["Light", "Dark", "Automatic"]
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Group {
                     

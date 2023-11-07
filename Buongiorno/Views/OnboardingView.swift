@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    @Binding var showOnboarding: Bool
     @State var currentTab: Int = 0
     var body: some View {
         TabView(selection: $currentTab,
@@ -48,6 +49,7 @@ struct OnboardingPageView: View {
                 .foregroundColor(Color.orange)
             Spacer()
             
+            
             Button(action: {
                 self.showOnboarding = false
             }, label: {
@@ -69,5 +71,5 @@ struct OnboardingPageView: View {
 }
 
 #Preview {
-    OnboardingView()
+    OnboardingView(showOnboarding: .constant(true))
 }

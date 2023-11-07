@@ -76,7 +76,7 @@ struct LoginPageView: View {
                         
                     }
                     .scrollContentBackground(.hidden)
-
+                    .scrollDisabled(true)
                 }
                 
                                 
@@ -103,10 +103,10 @@ struct LoginPageView: View {
         }
     }
     
-    func loginAPICall(username: String, password: String) {
-        guard let url = URL(string: "http://127.0.0.1:8080/login") else {
-            return
-        }
+        func loginAPICall(username: String, password: String) {
+            guard let url = URL(string: "http://127.0.0.1:1337/api/auth/login") else {
+                return
+            }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -10,12 +10,12 @@ import SwiftUI
 
 
 struct ProfilePageView: View {
-    @StateObject var viewModel = ProfileViewModel()
+    @StateObject var viewModel : ProfileViewModel
     @State private var isPresentingConfirm: Bool = false
     @State private var isPresentingEditSheet: Bool = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Group {
                     HStack(spacing:8) {
@@ -43,7 +43,7 @@ struct ProfilePageView: View {
                             Text(viewModel.displayName)
                                 .font(.title)
                                 .fontWeight(.semibold)
-                            Text("@\(viewModel.username) • they/them")
+                            Text("@\(viewModel.username) • \(viewModel.pronouns)")
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                             Spacer()
@@ -122,12 +122,37 @@ struct ProfilePageView: View {
                         Text("Are you sure you want to log out?")
                     }
                 })
+                .toolbar(content: {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        HStack {
+                            Button(action: {
+                                
+                            }, label: {
+                                Text(Image(systemName: "heart"))
+                            })
+                            .padding()
+                            .frame(maxWidth: 30)
+                            Button(action: {
+                                
+                            }, label: {
+                                Text(Image(systemName: "person.crop.circle.fill"))
+                            })
+                            .frame(maxWidth: 30)
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text(viewModel.username)
+                            .fontWeight(.bold)
+                            .font(.title)
+                        .padding()
+                    }
+                })
             }
-            .navigationBarTitle("Profile")
             .background(Color(uiColor: .systemGroupedBackground))
         }
         .sheet(isPresented: $isPresentingEditSheet) {
-            NavigationView {
+            NavigationStack {
                 EditProfileSheetView(viewModel: viewModel, isShowingSheet: $isPresentingEditSheet)
             }
             .presentationDetents([.medium])
@@ -168,17 +193,23 @@ struct EditProfileSheetView: View {
             Form {
                 LabeledContent {
                     TextField("Display name", text: $displayName)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .foregroundStyle(.foregroundText)
                 } label: {
-                 Text("Name")
-                        .fontWeight(.semibold)
-                        .frame(width: 100)
-                        .multilineTextAlignment(.trailing)
+                        Text("Name")
+                               .fontWeight(.semibold)
+                               .frame(width: 100)
+                               .multilineTextAlignment(.trailing)
                 }
                 .listRowInsets(EdgeInsets()) // Remove padding for the form row
 
                 
                 LabeledContent {
                     TextField("Pronouns", text: $username)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                    .foregroundStyle(.foregroundText)
                 } label: {
                  Text("Pronouns")
                         .fontWeight(.semibold)
@@ -190,7 +221,8 @@ struct EditProfileSheetView: View {
             
                 LabeledContent {
                     TextField("Bio", text: $bio)
-                        .foregroundStyle(.primary)
+                        .autocapitalization(.none)
+                        .foregroundStyle(.foregroundText)
                 } label: {
                  Text("Bio")
                         .fontWeight(.semibold)
@@ -204,6 +236,11 @@ struct EditProfileSheetView: View {
             .foregroundColor(.orange)
             .scrollContentBackground(.hidden)
 
+        }
+        .onAppear {
+            displayName = viewModel.displayName
+            username = viewModel.username
+            bio = viewModel.bio
         }
         .navigationBarTitle("Edit profile", displayMode: .inline)
         .toolbar {
@@ -253,6 +290,6 @@ struct CustomLabel: LabelStyle {
 }
 
 #Preview {
-    ProfilePageView()
+    ProfilePageView(viewModel: ProfileViewModel())
 }
 
