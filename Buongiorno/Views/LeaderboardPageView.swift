@@ -121,7 +121,7 @@ struct LeaderboardUserView: View {
                 .font(.body)
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity, alignment: .leading) // makes it fill as much space as it can
-            Text("\(user.score) points")
+            Text("\(user.score) pts")
                 .font(.callout)
                 .fontWeight(.regular)
         }
@@ -195,7 +195,7 @@ class Leaderboard: ObservableObject {
     }
     
     func fetchLeaderboard() {
-        guard let url = URL(string: "http://127.0.0.1:1337/buongiorno/leaderboard") else {
+        guard let url = URL(string: "http://127.0.0.1:1337/api/buongiorno/leaderboard") else {
             return
         }
         
