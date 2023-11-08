@@ -90,7 +90,7 @@ struct LeaderboardPageView: View {
         .introspect(.navigationView(style: .stack), on: .iOS(.v16, .v17)) { controller in
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.configureWithDefaultBackground()
-            controller.navigationBar.items?.first!.scrollEdgeAppearance = navigationBarAppearance
+            controller.navigationBar.items?.first?.scrollEdgeAppearance = navigationBarAppearance
         }
     }
 }
