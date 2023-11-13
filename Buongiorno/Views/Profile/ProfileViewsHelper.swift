@@ -11,11 +11,13 @@ import SDWebImageSwiftUI
 struct CircularProfilePicture: View {
   @Binding var profilePictureUri: String
   var body: some View {
-      WebImage(url: URL(string: profilePictureUri))
-          .resizable()
-          .frame(width: 100, height: 100)
-          .aspectRatio(contentMode: .fit)
-          .clipShape(.circle)
+      HStack {
+          WebImage(url: URL(string: profilePictureUri))
+              .resizable()
+              .frame(width: 70, height: 70)
+              .aspectRatio(contentMode: .fit)
+              .clipShape(.circle)
+      }
   }
 }
 

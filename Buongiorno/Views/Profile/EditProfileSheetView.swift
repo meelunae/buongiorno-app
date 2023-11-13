@@ -9,7 +9,7 @@ import PhotosUI
 import SwiftUI
 
 struct EditProfileSheetView: View {
-  @ObservedObject var loggedInUser: ProfileViewModel
+  @EnvironmentObject var loggedInUser: ProfileViewModel
   @Binding var isShowingSheet: Bool
   @State var displayName: String = ""
   @State var pronouns: String = ""
@@ -25,7 +25,7 @@ struct EditProfileSheetView: View {
                        photoLibrary: .shared()) {
             Image(systemName: "pencil.circle.fill")
               .symbolRenderingMode(.multicolor)
-              .font(.system(size: 30))
+              .font(.system(size: 20))
               .foregroundColor(.accentColor)
           }
         .buttonStyle(.borderless)

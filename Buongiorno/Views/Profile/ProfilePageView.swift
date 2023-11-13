@@ -134,16 +134,16 @@ struct ProfilePageView: View {
 			  Button(action: {
 				
 			  }, label: {
-				Text(Image(systemName: "heart"))
+				Text(Image(systemName: "heart.fill"))
 			  })
 			  .padding()
-			  .frame(maxWidth: 30)
+			  .frame(maxWidth: 25)
 			  NavigationLink(destination: {
                   ProfilePageView()
 			  }, label: {
                   WebImage(url: URL(string: loggedInUser.profilePictureURL))
                              .resizable()
-                             .frame(width: 30, height: 30)
+                             .frame(width: 25, height: 25)
                              .aspectRatio(contentMode: .fit)
                              .clipShape(.circle)
 			  })
@@ -152,10 +152,10 @@ struct ProfilePageView: View {
 		  }
 		  
 		  ToolbarItem(placement: .topBarLeading) {
-			Text(loggedInUser.username)
-			  .fontWeight(.bold)
-			  .font(.title)
-			  .padding()
+			Text("@\(loggedInUser.username)")
+                .fontWeight(.semibold)
+                .font(.title2)
+                .padding()
 		  }
 		})
 	  }
@@ -164,7 +164,7 @@ struct ProfilePageView: View {
 	}
 	.sheet(isPresented: $isPresentingEditSheet) {
 	  NavigationStack {
-          EditProfileSheetView(loggedInUser: loggedInUser, isShowingSheet: $isPresentingEditSheet)
+          EditProfileSheetView(isShowingSheet: $isPresentingEditSheet)
 	  }
 	  .presentationDetents([.medium])
 	  .presentationDragIndicator(.hidden)
@@ -177,8 +177,6 @@ struct ProfilePageView: View {
 	}
   }
 }
-
-
 
 #Preview {
     ProfilePageView()

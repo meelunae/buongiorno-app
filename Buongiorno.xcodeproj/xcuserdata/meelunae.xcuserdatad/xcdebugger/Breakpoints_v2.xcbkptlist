@@ -65,6 +65,36 @@
                   endingLineNumber = "31"
                   offsetFromSymbolStart = "1672">
                </Location>
+               <Location
+                  uuid = "722BEAC9-7BA9-48E4-B4FD-40A0443B44CE - c112f3f522d66b60"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Buongiorno.ProfileViewModel.__allocating_init(displayName: Swift.String, username: Swift.String, bio: Swift.String, profilePictureURL: Swift.String, pronouns: Swift.String, friendsCount: Swift.Int, scoreCount: Swift.Int) -&gt; Buongiorno.ProfileViewModel"
+                  moduleName = "Buongiorno"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/meelunae/Desktop/Desktop/Git%20Repos/buongiorno-app/Buongiorno/ViewModels/ProfileViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "722BEAC9-7BA9-48E4-B4FD-40A0443B44CE - 963772f7839fe30"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Buongiorno.ProfileViewModel.init(displayName: Swift.String, username: Swift.String, bio: Swift.String, profilePictureURL: Swift.String, pronouns: Swift.String, friendsCount: Swift.Int, scoreCount: Swift.Int) -&gt; Buongiorno.ProfileViewModel"
+                  moduleName = "Buongiorno"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/meelunae/Desktop/Desktop/Git%20Repos/buongiorno-app/Buongiorno/ViewModels/ProfileViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "1672">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

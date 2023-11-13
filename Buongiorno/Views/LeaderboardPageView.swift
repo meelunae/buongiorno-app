@@ -66,16 +66,16 @@ struct LeaderboardPageView: View {
                             Button(action: {
                                 
                             }, label: {
-                                Text(Image(systemName: "heart"))
+                                Text(Image(systemName: "heart.fill"))
                             })
                             .padding()
-                            .frame(maxWidth: 30)
+                            .frame(maxWidth: 25)
                             NavigationLink(destination: {
                                 ProfilePageView()
                             }, label: {
-                                WebImage(url: URL(string: "https://eleuna.me/assets/img/pfp.png"))
+                                WebImage(url: URL(string: "http://localhost:8000/pfp.png"))
                                            .resizable()
-                                           .frame(width: 30, height: 30)
+                                           .frame(width: 25, height: 25)
                                            .aspectRatio(contentMode: .fit)
                                            .clipShape(.circle)
                             })
@@ -85,8 +85,8 @@ struct LeaderboardPageView: View {
                     
                     ToolbarItem(placement: .topBarLeading) {
                         Text("Leaderboard")
-                            .fontWeight(.bold)
-                            .font(.title)
+                            .fontWeight(.semibold)
+                            .font(.title2)
                         .padding()
                     }
                 })

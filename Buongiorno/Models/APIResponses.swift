@@ -27,14 +27,14 @@ struct UserDetailsDTO: Codable {
     let bio: String
     let pronouns: String
     let score: Int
-    let friends: Int
+    let friends: [UserFriendDTO]
 }
 
 struct UserFriendDTO: Codable {
     let _id: String
-    let profilePicture: String
-    let displayName: String
-    let username: String
+    let friendId: String
+    let lastBuongiornoTime: String
+    let friendsSince: String
 }
 
 struct AuthTokenResponse: Codable {

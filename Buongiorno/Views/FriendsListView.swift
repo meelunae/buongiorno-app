@@ -23,22 +23,26 @@ struct FriendsListRowView: View {
             if profileViewModel.friendsCount == 0 {
                 Text("Hello world!")
             } else {
-                List {
-                    ForEach(friends, id: \._id) { friend in
-                        HStack {
-                            WebImage(url: URL(string: friend.profilePicture))
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(.circle)
-                            Spacer()
-                            VStack {
-                                Text(friend.displayName)
-                                Text(friend.username)
-                            }
-                        }
-                    }
-                }
+                Text("Hello world!")
+                /*
+                 List {
+                 ForEach(friends, id: \._id) { friend in
+                 HStack {
+                 WebImage(url: URL(string: friend.profilePicture))
+                 .resizable()
+                 .frame(width: 50, height: 50)
+                 .aspectRatio(contentMode: .fit)
+                 .clipShape(.circle)
+                 Spacer()
+                 VStack {
+                 Text(friend.displayName)
+                 Text(friend.username)
+                 }
+                 }
+                 }
+                 }
+                 }
+                 */
             }
         }
         .toolbar(content: {

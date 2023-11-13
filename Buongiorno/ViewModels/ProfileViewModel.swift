@@ -17,7 +17,7 @@ class ProfileViewModel: ObservableObject {
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     @Published var displayName: String = "undefined"
     @Published var username: String = "undefined"
-    @Published var bio: String = "undefined"
+    @Published var bio: String = ""
     @Published var profilePictureURL: String = "undefined"
     @Published var pronouns: String = "undefined"
     @Published var friendsCount: Int = 0
@@ -125,17 +125,14 @@ class ProfileViewModel: ObservableObject {
                         do {
                             let decoder = JSONDecoder()
                             let decodedObject = try decoder.decode(APIResponse<UserDetailsDTO>.self, from: data)
-                            print(decodedObject)
                         }  catch let error {
                             print("Error decoding JSON: \(error)")
                         }
                         if let successResponse = try? decoder.decode(APIResponse<UserDetailsDTO>.self, from: data) {
-                            print(successResponse)
                             guard let user = successResponse.data else {
                                 completion(false)
                                 return
                             }
-                            print(user)
                             DispatchQueue.main.async {
                                 self.displayName = user.displayName
                                 self.bio = user.bio
@@ -162,7 +159,7 @@ class ProfileViewModel: ObservableObject {
     }
     
     private func fetchProfileData() {
-        guard let url = URL(string: "http://127.0.0.1:1337/api/user/emanuele") else {
+        guard let url = URL(string: "http://127.0.0.1:1337/api/user/") else {
             return
         }
         
@@ -170,14 +167,9 @@ class ProfileViewModel: ObservableObject {
             return
         }
         
-        guard let refreshToken = KeychainWrapper.standard.string(forKey: "BuongiornoRefreshToken") else {
-            return
-        }
-        
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
-        request.setValue("\(refreshToken)", forHTTPHeaderField: "bg-refresh-token")
         
         let task = URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
@@ -185,6 +177,7 @@ class ProfileViewModel: ObservableObject {
                 return
             }
             if let data = data {
+                print("in here")
                 do {
                     let decoder = JSONDecoder()
                     if let successResponse = try? decoder.decode(APIResponse<UserDetailsDTO>.self, from: data) {
@@ -196,21 +189,15 @@ class ProfileViewModel: ObservableObject {
                             self.profilePictureURL = user.profilePicture
                             self.bio = user.bio
                             self.scoreCount = user.score
-                            self.friendsCount = user.friends
+                            self.friendsCount = user.friends.count
                             self.pronouns = user.pronouns
                             self.displayName = user.displayName
                         }
-                    } else if let errorResponse = try? decoder.decode(ErrorResponse.self, from: data) {
-                        print("Error: \(errorResponse)")
-                        return
-                    } else {
-                        return
                     }
                 }
             }
         }
         task.resume()
-
     }
     
     private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
