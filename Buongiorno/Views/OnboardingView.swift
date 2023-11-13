@@ -18,7 +18,8 @@ struct OnboardingView: View {
                     .tag(viewData.id)
             }
         })
-        .tabViewStyle(PageTabViewStyle())
+        .tabViewStyle(.page)
+        .indexViewStyle(.page(backgroundDisplayMode: .always))
     }
 }
 
@@ -49,22 +50,22 @@ struct OnboardingPageView: View {
                 .foregroundColor(Color.orange)
             Spacer()
             
-            
-            Button(action: {
-                self.showOnboarding = false
-            }, label: {
-                Text("Get Started")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 50)
-                    .padding(.vertical, 16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.orange)
-                    )
-            })
-            .shadow(radius: 3)
-            
+            if (data.id == 2) {
+                Button(action: {
+                    self.showOnboarding = false
+                }, label: {
+                    Text("Get Started")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 50)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.orange)
+                        )
+                })
+                .shadow(radius: 1)
+            }
             Spacer()
         }
     }

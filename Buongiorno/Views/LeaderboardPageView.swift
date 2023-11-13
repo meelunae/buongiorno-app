@@ -8,16 +8,18 @@
 import SwiftUI
 import SwiftUIIntrospect
 import ViewExtractor
+import SDWebImageSwiftUI
 
 struct LeaderboardPageView: View {
     @ObservedObject var leaderboard = Leaderboard()
-    @State var leaderboards = ["Daily", "Weekly", "All-time"]
-    @State var selectedLeaderboard: String = "All-time"
+    //@State var leaderboards = ["Daily", "Weekly", "All-time"]
+    //@State var selectedLeaderboard: String = "All-time"
     
     var body: some View {
         NavigationView {
             if leaderboard.dataIsLoaded {
                 ScrollView {
+                    /*
                     Picker("Leaderboard", selection: $selectedLeaderboard) {
                         ForEach(leaderboards, id: \.self) { leaderboard in
                             Text(leaderboard)
@@ -26,7 +28,7 @@ struct LeaderboardPageView: View {
                     .pickerStyle(.segmented)
                     .padding(.horizontal, 30)
                     .padding(.top, 30)
-                    
+                    */
                     let top3Users = {
                         leaderboard.results.prefix(3)
                     }()
@@ -68,10 +70,14 @@ struct LeaderboardPageView: View {
                             })
                             .padding()
                             .frame(maxWidth: 30)
-                            Button(action: {
-                                
+                            NavigationLink(destination: {
+                                ProfilePageView()
                             }, label: {
-                                Text(Image(systemName: "person.crop.circle.fill"))
+                                WebImage(url: URL(string: "https://eleuna.me/assets/img/pfp.png"))
+                                           .resizable()
+                                           .frame(width: 30, height: 30)
+                                           .aspectRatio(contentMode: .fit)
+                                           .clipShape(.circle)
                             })
                             .frame(maxWidth: 30)
                         }
@@ -84,7 +90,7 @@ struct LeaderboardPageView: View {
                         .padding()
                     }
                 })
-            .background(Color(uiColor: .systemGroupedBackground))
+                .navigationBarBackButtonHidden(true)
             }
         }
         .introspect(.navigationView(style: .stack), on: .iOS(.v16, .v17)) { controller in
@@ -185,59 +191,6 @@ struct DividedVStack<Content: View>: View {
         }
     }
 }
-
-class Leaderboard: ObservableObject {
-    @Published var dataIsLoaded: Bool = false
-    @Published var results: [LeaderboardUserDTO] = []
-    
-    init() {
-        fetchLeaderboard()
-    }
-    
-    func fetchLeaderboard() {
-        guard let url = URL(string: "http://127.0.0.1:1337/api/buongiorno/leaderboard") else {
-            return
-        }
-        
-        guard let authToken = KeychainWrapper.standard.string(forKey: "GdayAuthToken") else {
-            return
-        }
-                
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error)
-                return
-            }
-            if let data = data {
-                do {
-                    let decoder = JSONDecoder()
-                    if let successResponse = try? decoder.decode(APIResponse<[LeaderboardUserDTO]>.self, from: data) {
-                        print(successResponse)
-                        guard let rankings = successResponse.data else {
-                            return
-                        }
-                        DispatchQueue.main.async {
-                            self.results = rankings
-                            self.dataIsLoaded = true
-                        }
-                    } else if let errorResponse = try? decoder.decode(ErrorResponse.self, from: data) {
-                        print(errorResponse)
-                        return
-                    } else {
-                        print("Something went wrong.")
-                        return
-                    }
-                }
-            }
-        }
-        task.resume()
-    }
-}
-
 
 #Preview {
     LeaderboardPageView()

@@ -27,10 +27,19 @@ struct UserDetailsDTO: Codable {
     let bio: String
     let pronouns: String
     let score: Int
+    let friends: Int
+}
+
+struct UserFriendDTO: Codable {
+    let _id: String
+    let profilePicture: String
+    let displayName: String
+    let username: String
 }
 
 struct AuthTokenResponse: Codable {
-    let token: String
+    let accessToken: String
+    let refreshToken: String?
 }
 
 struct ErrorResponse: Codable {

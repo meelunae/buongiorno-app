@@ -27,6 +27,16 @@ class ProfileViewModel: ObservableObject {
     init() {
         fetchProfileData()
     }
+    
+    init(displayName: String, username: String, bio: String, profilePictureURL: String, pronouns: String, friendsCount: Int, scoreCount: Int) {
+        self.username = username
+        self.profilePictureURL = profilePictureURL
+        self.bio = bio
+        self.scoreCount = scoreCount
+        self.friendsCount = friendsCount
+        self.pronouns = pronouns
+        self.displayName = displayName
+    }
     // MARK: - Profile Image
     
     enum ImageState {
@@ -78,11 +88,16 @@ class ProfileViewModel: ObservableObject {
             completion(false)
             return
         }
-        guard let authToken = KeychainWrapper.standard.string(forKey: "GdayAuthToken") else {
+        guard let authToken = KeychainWrapper.standard.string(forKey: "BuongiornoAccessToken") else {
             completion(false)
             return
         }
         
+         guard let refreshToken = KeychainWrapper.standard.string(forKey: "BuongiornoRefreshToken") else {
+             completion(false)
+             return
+         }
+         
         let updateData: [String: Any] = [
             "displayName": displayName,
             "pronouns": pronouns,
@@ -96,6 +111,7 @@ class ProfileViewModel: ObservableObject {
             request.httpBody = jsonData
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+            request.setValue("\(refreshToken)", forHTTPHeaderField: "bg-refresh-token")
             
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 if let error = error {
@@ -106,7 +122,6 @@ class ProfileViewModel: ObservableObject {
                 if let data = data {
                     do {
                         let decoder = JSONDecoder()
-                        print(String(data: data, encoding: .utf8))
                         do {
                             let decoder = JSONDecoder()
                             let decodedObject = try decoder.decode(APIResponse<UserDetailsDTO>.self, from: data)
@@ -150,13 +165,19 @@ class ProfileViewModel: ObservableObject {
         guard let url = URL(string: "http://127.0.0.1:1337/api/user/emanuele") else {
             return
         }
-        guard let authToken = KeychainWrapper.standard.string(forKey: "GdayAuthToken") else {
+        
+        guard let authToken = KeychainWrapper.standard.string(forKey: "BuongiornoAccessToken") else {
+            return
+        }
+        
+        guard let refreshToken = KeychainWrapper.standard.string(forKey: "BuongiornoRefreshToken") else {
             return
         }
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("\(refreshToken)", forHTTPHeaderField: "bg-refresh-token")
         
         let task = URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
@@ -175,7 +196,7 @@ class ProfileViewModel: ObservableObject {
                             self.profilePictureURL = user.profilePicture
                             self.bio = user.bio
                             self.scoreCount = user.score
-                            self.friendsCount = 0
+                            self.friendsCount = user.friends
                             self.pronouns = user.pronouns
                             self.displayName = user.displayName
                         }

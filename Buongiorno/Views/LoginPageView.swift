@@ -122,7 +122,11 @@ struct LoginPageView: View {
                     let decoder = JSONDecoder()
                     if let successResponse = try? decoder.decode(AuthTokenResponse.self, from: data) {
                         print("Saving token in Keychain")
-                        KeychainWrapper.standard.set(successResponse.token, forKey: "GdayAuthToken")
+                        KeychainWrapper.standard.set(successResponse.accessToken, forKey: "BuongiornoAccessToken")
+                        if let refreshToken = successResponse.refreshToken {
+                            KeychainWrapper.standard.set(refreshToken, forKey: "BuongiornoRefreshToken")
+                        }
+                            
                         self.isLoggedIn = true
                     } else if let errorResponse = try? decoder.decode(ErrorResponse.self, from: data) {
                         errorMessage = errorResponse.reason
@@ -168,7 +172,7 @@ struct LoginPageView: View {
         authenticateWithBiometrics { success, error in
             if success {
                 DispatchQueue.main.async {
-                    if let text = KeychainWrapper.standard.string(forKey: "GdayAuthToken") {
+                    if let text = KeychainWrapper.standard.string(forKey: "BuongiornoAccessToken") {
                         print(text)
                     }
                 }

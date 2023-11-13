@@ -15,14 +15,20 @@ struct ContentView: View {
     var body: some View {
         if isLoggedIn {
             TabView {
-                ProfilePageView(viewModel: selfProfileViewModel)
+                FriendsListView()
+                    .tabItem {
+                        Image(systemName: "sun.horizon.circle.fill")
+                    }
+                
+                 ProfilePageView()
                     .tabItem {
                         Image(systemName: "person.circle.fill")
                         
                     }
+                
                 LeaderboardPageView()
                     .tabItem {
-                        Image(systemName: "trophy")
+                        Image(systemName: "trophy.circle.fill")
                     }
             }
         } else {
@@ -33,8 +39,7 @@ struct ContentView: View {
                 OnboardingView(showOnboarding: $showOnboarding)
             })
         }
-    }
-    
+    }    
 }
 
 #Preview {

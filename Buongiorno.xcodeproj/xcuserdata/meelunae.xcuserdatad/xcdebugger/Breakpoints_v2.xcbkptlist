@@ -20,5 +20,53 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "722BEAC9-7BA9-48E4-B4FD-40A0443B44CE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Buongiorno/ViewModels/ProfileViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "ProfileViewModel"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "722BEAC9-7BA9-48E4-B4FD-40A0443B44CE - cd32cf7804e646b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Buongiorno.ProfileViewModel.__allocating_init(displayName: Swift.String, username: Swift.String, bio: Swift.String, profilePictureURL: Swift.String, pronouns: Swift.String, friendsCount: Swift.Int, scoreCount: Swift.Int) -&gt; Buongiorno.ProfileViewModel"
+                  moduleName = "Buongiorno"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/meelunae/Desktop/Desktop/Git%20Repos/gday-app/Buongiorno/ViewModels/ProfileViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "722BEAC9-7BA9-48E4-B4FD-40A0443B44CE - c4a2a82ddaa1e905"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Buongiorno.ProfileViewModel.init(displayName: Swift.String, username: Swift.String, bio: Swift.String, profilePictureURL: Swift.String, pronouns: Swift.String, friendsCount: Swift.Int, scoreCount: Swift.Int) -&gt; Buongiorno.ProfileViewModel"
+                  moduleName = "Buongiorno"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/meelunae/Desktop/Desktop/Git%20Repos/gday-app/Buongiorno/ViewModels/ProfileViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "1672">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
